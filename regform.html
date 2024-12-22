@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Portal</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff7eb3, #6a11cb);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .registration-container, .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .registration-container h1, .login-container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #6a11cb;
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        }
+
+        .form-group .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .register-button, .login-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #ff7eb3, #6a11cb);
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .register-button:hover, .login-button:hover {
+            background: linear-gradient(to right, #6a11cb, #ff7eb3);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-footer a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+            font-size: 18px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .login-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container" id="registrationContainer">
+        <h1>Student Registration</h1>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
+                <div class="error" id="fullNameError"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <div class="error" id="emailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+                <input type="text" id="studentId" name="studentId" placeholder="Enter your Student ID">
+                <div class="error" id="studentIdError"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your Password">
+                <div class="error" id="passwordError"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your Password">
+                <div class="error" id="confirmPasswordError"></div>
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" name="department">
+                    <option value="">Select your department</option>
+                    <option value="CSE">Computer Science</option>
+                    <option value="ECE">Electronics and Communication</option>
+                    <option value="ME">Mechanical</option>
+                    <option value="CE">Civil</option>
+                    <option value="EE">Electrical</option>
+                </select>
+                <div class="error" id="departmentError"></div>
+            </div>
+            <button type="button" class="register-button" onclick="validateRegistrationForm()">Register</button>
+        </form>
+        <div class="form-footer">
+            <p>Already have an account? <a href="#" onclick="showLoginForm()">Login here</a></p>
+        </div>
+    </div>
+    
+    <div class="login-container" id="loginContainer">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginStudentId">Student ID</label>
+                <input type="text" id="loginStudentId" name="loginStudentId" placeholder="Enter your Student ID">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your Password">
+            </div>
+            <button type="button" class="login-button" onclick="login()">Login</button>
+        </form>
+    </div>
+
+    <div id="successMessage" class="success-message" style="display: none;">
+        <h2>Registration Successful!</h2>
+        <p>Your account has been created. You can now <a href="#">log in</a>.</p>
+    </div>
+
+    <div id="loginSuccessMessage" class="success-message" style="display: none;">
+        <h2>Welcome!</h2>
+        <p>You have successfully logged in.</p>
+    </div>
+
+    <script>
+        // This code was written by Bibek Sahani
+
+        function validateRegistrationForm() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const department = document.getElementById('department').value;
+
+            const fullNameError = document.getElementById('fullNameError');
+            const emailError = document.getElementById('emailError');
+            const studentIdError = document.getElementById('studentIdError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            const departmentError = document.getElementById('departmentError');
+
+            // Reset error messages
+            fullNameError.textContent = '';
+            emailError.textContent = '';
+            studentIdError.textContent = '';
+            passwordError.textContent = '';
+            confirmPasswordError.textContent = '';
+            departmentError.textContent = '';
+
+            let isValid = true;
+
+            if (fullName === '') {
+                fullNameError.textContent = 'Full name is required.';
+                isValid = false;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                emailError.textContent = 'Enter a valid email address.';
+                isValid = false;
+            }
+
+            if (!/^[A-Za-z0-9]{6,12}$/.test(studentId)) {
+                studentIdError.textContent = 'Student ID must be 6-12 alphanumeric characters.';
+                isValid = false;
+            }
+
+            if (password.length < 8) {
+                passwordError.textContent = 'Password must be at least 8 characters long.';
+                isValid = false;
+            }
+
+            if (password !== confirmPassword) {
+                confirmPasswordError.textContent = 'Passwords do not match.';
+                isValid = false;
+            }
+
+            if (department === '') {
+                departmentError.textContent = 'Please select a department.';
+                isValid = false;
+            }
+
+            if (isValid) {
+                document.getElementById('registrationContainer').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                console.log({ fullName, email, studentId, department });
+            }
+        }
+
+        function showLoginForm() {
+            document.getElementById('registrationContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+        }
+
+        function login() {
+            const studentId = document.getElementById('loginStudentId').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            // Simulate successful login
+            if (studentId && password) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('loginSuccessMessage').style.display = 'block';
+            } else {
+                alert('Please enter valid credentials.');
+            }
+        }
+    </script>
+
+    <!-- This code was written by Bibek Sahani -->
+</body>
+</html>
